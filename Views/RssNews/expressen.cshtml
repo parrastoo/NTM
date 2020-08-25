@@ -1,0 +1,16 @@
+﻿@model IEnumerable < WebApplication2.Models.RssNews>
+@{
+    ViewBag.Title = "expressen";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@foreach (var item in Model)
+{
+    <div>
+        @item.Title
+        <hr />
+    </div>
+}
+
+
+<!--http://localhost:6850/RssNews/expressen-->

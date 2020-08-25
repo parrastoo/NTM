@@ -1,0 +1,25 @@
+﻿@model IEnumerable<WebApplication2.Models.NewsChannel>
+@{
+    ViewBag.Title = "SetChannels";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Choose The Channel</h2>
+<select id="ChannelType">
+    @foreach (var item in Model)
+    {
+        <option value=@item.Id>@item.Name</option>
+    }
+</select>
+
+<script>
+    function test() {
+        var e = document.getElementById('ChannelType');
+        var strSel = '/RssNews/' + e.options[e.selectedIndex].text;
+        return strSel
+    }
+    </script>
+
+<input onclick= "window.location.href = test();" type="submit" value="Submit request" />
+
+<input type="button" onclick= alert(test());    value="v!" />
