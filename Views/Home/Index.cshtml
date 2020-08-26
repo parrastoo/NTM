@@ -1,26 +1,27 @@
-﻿@model IEnumerable<WebApplication2.Models.NewsChannel>
+﻿@model IEnumerable<WebApplication2.Models.RssNews>
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <h2>Home Page</h2>
-<h2>Choose The Channel</h2>
-<select id="ChannelType">
-    @*value is url and text is Name*@
-    @foreach (var item in Model)
-    {
-        <option value=@item.Url>@item.Name</option>
-    }
-</select>
 
-<script>
-    function createLink() {
-        var e = document.getElementById('ChannelType');
-        var strSel = '/RssNews/' + e.options[e.selectedIndex].text;
-        return strSel
-    }
-</script>
 
-<input onclick="window.location.href = createLink();" type="submit" value="Submit request" />
-<!--<input type="button" onclick=alert(createLink2()); value="v!" />-->
+@foreach (var item in Model)
+{
+
+
+    <ul>
+        <li>Title : @item.Title</li>
+        <li>Text :@(new HtmlString(@item.Text)) </li>
+        <li>Date : @item.PublicationDate </li>
+        <li>Link : @item.Link <a href=@item.Link target="_blank"> open article</a></li>
+        <li>Source : @item.Source </li>
+        <li>Category : @item.Category <a href="/RssNews/Category/@item.Category" target="_blank"> same category</a></li>
+        <li>Image :@(new HtmlString(@item.Image)) </li>
+    </ul>
+}
+
+
+
+

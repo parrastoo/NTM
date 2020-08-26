@@ -14,20 +14,17 @@ namespace WebApplication2.Controllers
         public ActionResult Index()
         {
 
-           
 
-            var channelList = new List<NewsChannel>();
-            var news1 = new NewsChannel("svd", "https://www.svd.se/?service=rss");
-            channelList.Add(news1);
+            var s = RssReader.ReadAll();
+            s.Sort((x, y) => DateTime.Compare(y.PublicationDate, x.PublicationDate)); //descending order
+            return View(s);
 
-            var news2 = new NewsChannel("nt", "https://www.nt.se/rss/lokalt/norrkoping");
-            channelList.Add(news2);
 
-            var news3 = new NewsChannel("expressen", "https://feeds.expressen.se/nyheter/");
-            channelList.Add(news3);
 
-            return View(channelList);
+
         }
+
+  
 
 
         //Add New

@@ -25,6 +25,7 @@ namespace WebApplication2.Controllers
         {
             string url2 = "https://www.nt.se/rss/lokalt/norrkoping";
             var s = RssReader.Read(url2,"nt");
+            s.Sort((x, y) => DateTime.Compare(y.PublicationDate, x.PublicationDate)); //descending order
             return View(s);
         }
 
@@ -32,11 +33,15 @@ namespace WebApplication2.Controllers
         {
             string url2 = "https://feeds.expressen.se/nyheter/";
             var s = RssReader.Read(url2,"expressen");
+            s.Sort((x, y) => DateTime.Compare(y.PublicationDate, x.PublicationDate)); //descending order
             return View(s);
         }
-        
 
-      
+ 
+
+
+
+
         public ActionResult Bycategory(string category)
         {
 
