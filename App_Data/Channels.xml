@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<CHANNELS>
+  <CHANNEL>
+    <TITLE>SVD</TITLE>
+    <URL>https://www.svd.se/?service=rss</URL>
+  </CHANNEL>
+  <CHANNEL>
+    <TITLE>NT</TITLE>
+    <URL>https://www.nt.se/rss/lokalt/norrkoping</URL>
+  </CHANNEL>
+  <CHANNEL>
+    <TITLE>Expressen</TITLE>
+    <URL>https://feeds.expressen.se/nyheter/</URL>
+  </CHANNEL>
+</CHANNELS>

@@ -28,7 +28,7 @@ namespace WebApplication2.Models
     public class RssReader
     {
 
-        public static List<RssNews> Read(string url)
+        public static List<RssNews> Read(string url,string source)
         {
             var webClient = new WebClient();
             //            ServicePointManager.ServerCertificateValidationCallback = delegate { return true; };
@@ -43,7 +43,7 @@ namespace WebApplication2.Models
                 r.Text = descendant.Element("description").Value;
                 r.PublicationDate = Convert.ToDateTime(descendant.Element("pubDate").Value);
                 r.Link = descendant.Element("link").Value;
-                r.Source = "svd";
+                r.Source = source;
                 if (descendant.Element("category") != null) r.Category = descendant.Element("category").Value;
 
 
