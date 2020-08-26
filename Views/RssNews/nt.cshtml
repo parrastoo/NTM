@@ -6,10 +6,16 @@
 
 @foreach (var item in Model)
 {
-    <div>
-        @item.Title
-        <hr />
-    </div>
+ 
+    <ul>
+        <li>Title : @item.Title</li>
+        <li>Text :@(new HtmlString(@item.Text)) </li>
+        <li>Date : @item.PublicationDate </li>
+        <li>Link : @item.Link <a href=@item.Link target="_blank"> open article</a></li>
+        <li>Source : @item.Source </li>
+        <li>Category : @item.Category <a href="/RssNews/Category/@item.Category" target="_blank"> same category</a></li>
+        <li>Image :@(new HtmlString(@item.Image)) </li>
+    </ul>
 }
 
 

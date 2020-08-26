@@ -16,36 +16,64 @@ namespace WebApplication2.Controllers
         {
             string url2 = "https://www.svd.se/?service=rss";
             var s = RssReader.Read(url2);
-            StringBuilder sb = new StringBuilder();
-            foreach (RssNews rs in s)
-            {
-                sb.AppendLine("title: " + rs.Title);
-                sb.AppendLine("text :" + rs.Text);
-                sb.AppendLine("pb : " + rs.PublicationDate);
-                sb.AppendLine("link :" + rs.Link);
-                sb.AppendLine("source :" + rs.Source + "\n");
-            }
-
-            string Text = sb.ToString();
+            s.Sort((x, y) => DateTime.Compare(y.PublicationDate, x.PublicationDate)); //descending order
             return View(s);
         }
 
+        /*   public ActionResult Edit(int id)
+           {
+               return Content("id= " + id);
 
+           }
+
+           public ActionResult Index(int? pageIndex, String sortBy)
+           {
+               if (!pageIndex.HasValue)
+                   pageIndex = 1;
+
+               if (String.IsNullOrWhiteSpace(sortBy))
+                   sortBy = "Date";
+               return Content(String.Format("pageIndex={0}&sortBy={1}",pageIndex,sortBy));
+
+           }
+
+           public ActionResult ByPublicationDate(int year, int month)
+           {
+               return Content(year +"/" + month);
+
+           }*/
+
+        public ActionResult Bycategory(string category)
+        {
+
+            string url2 = "https://www.svd.se/?service=rss";
+            var s = RssReader.Read(url2);
+            s.Sort((x, y) => DateTime.Compare(y.PublicationDate, x.PublicationDate)); //descending orders
+            var filter_list = new List<RssNews>();
+            foreach (var item in s)
+            {
+                //RssNews r = new RssNews();
+                if( string.Equals(item.Category,category))
+                {
+                    filter_list.Add(item);
+                }
+
+            }
+            return View(filter_list);
+            //return Content(category);
+
+        }
+
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public ActionResult nt()
         {
             string url2 = "https://www.nt.se/rss/lokalt/norrkoping";
             var s = RssReader.Read(url2);
-            StringBuilder sb = new StringBuilder();
-            foreach (RssNews rs in s)
-            {
-                sb.AppendLine("title: " + rs.Title);
-                sb.AppendLine("text :" + rs.Text);
-                sb.AppendLine("pb : " + rs.PublicationDate);
-                sb.AppendLine("link :" + rs.Link);
-                sb.AppendLine("source :" + rs.Source + "\n");
-            }
-
-            string Text = sb.ToString();
             return View(s);
         }
 
@@ -53,21 +81,12 @@ namespace WebApplication2.Controllers
         {
             string url2 = "https://feeds.expressen.se/nyheter/";
             var s = RssReader.Read(url2);
-            StringBuilder sb = new StringBuilder();
-            foreach (RssNews rs in s)
-            {
-                sb.AppendLine("title: " + rs.Title);
-                sb.AppendLine("text :" + rs.Text);
-                sb.AppendLine("pb : " + rs.PublicationDate);
-                sb.AppendLine("link :" + rs.Link);
-                sb.AppendLine("source :" + rs.Source + "\n");
-            }
-
-            string Text = sb.ToString();
             return View(s);
         }
 
-      
+
+
+
 
     }
 }

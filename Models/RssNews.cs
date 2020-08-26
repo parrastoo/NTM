@@ -17,12 +17,12 @@ namespace WebApplication2.Models
     public class RssNews
     {
         public string Title;
-        //   public string Image; //if there was
         public string Text;
-        public string PublicationDate;
-        // public string Category; //if there was
+        public DateTime PublicationDate;
+        public string Category; //if there was
         public string Link;
         public string Source;
+        public string Image; //if there was
     }
 
     public class RssReader
@@ -31,7 +31,7 @@ namespace WebApplication2.Models
         public static List<RssNews> Read(string url)
         {
             var webClient = new WebClient();
-//            ServicePointManager.ServerCertificateValidationCallback = delegate { return true; };
+            //            ServicePointManager.ServerCertificateValidationCallback = delegate { return true; };
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
             string result = Encoding.UTF8.GetString(webClient.DownloadData(url));
             XDocument document = XDocument.Parse(result);
@@ -41,16 +41,21 @@ namespace WebApplication2.Models
                 RssNews r = new RssNews();
                 r.Title = descendant.Element("title").Value;
                 r.Text = descendant.Element("description").Value;
-                r.PublicationDate = descendant.Element("pubDate").Value;
+                r.PublicationDate = Convert.ToDateTime(descendant.Element("pubDate").Value);
                 r.Link = descendant.Element("link").Value;
                 r.Source = "svd";
+                if (descendant.Element("category") != null) r.Category = descendant.Element("category").Value;
+
+
+                if (descendant.Element("image") != null) r.Image = descendant.Element("image").Value;
                 news_list.Add(r);
 
-
             }
-            return (news_list);
+              return (news_list);
 
 
         }
-    }
+
+
+        }
 }

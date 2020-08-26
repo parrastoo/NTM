@@ -1,0 +1,24 @@
+﻿@model IEnumerable<WebApplication2.Models.RssNews>
+@{
+    ViewBag.Title = "ByCategory";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+
+@foreach (var item in Model)
+{
+
+    <ul>
+        <li>Title : @item.Title</li>
+        <li>Text : @item.Text </li>
+        <li>Date : @item.PublicationDate </li>
+        <li>Link : @item.Link <a href=@item.Link target="_blank"> open article</a></li>
+        <li>Source : @item.Source </li>
+        <li>Category : @item.Category</li>
+
+    </ul>
+}
+
+<!--http://localhost:6850/RssNews/ByCategory-->

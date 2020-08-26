@@ -13,6 +13,12 @@ namespace WebApplication2
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
+            routes.MapRoute("NewsByPublicationDate",
+                "RssNews/Date/{year}/{month}",
+                new { controller = "RssNews", action = "ByPublicationDate" } );
+            routes.MapRoute("NewsByCategory",
+            "RssNews/Category/{category}",
+              new { controller = "RssNews", action = "ByCategory" });
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
