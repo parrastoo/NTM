@@ -7,15 +7,19 @@
 <h2>NT Page</h2>
 @foreach (var item in Model)
 {
- 
+    <br>
+    <br />
+
     <ul>
         <li>Title : @item.Title</li>
         <li>Text :@(new HtmlString(@item.Text)) </li>
         <li>Date : @item.PublicationDate </li>
         <li>Link : @item.Link <a href=@item.Link target="_blank"> open article</a></li>
         <li>Source : @item.Source </li>
-        <li>Category : @item.Category <a href="/RssNews/Category/@item.Category" target="_blank"> same category</a></li>
-        <li>Image :@(new HtmlString(@item.Image)) </li>
+        @*<li>Category : @item.Category <a href="/RssNews/Category/@item.Category" target="_blank"> same category</a></li>
+    <li>Image :@(new HtmlString(@item.Image)) </li>*@
+        @(new HtmlString(@item.Category_html))
+        @(new HtmlString(@item.Image))
     </ul>
 }
 

@@ -11,6 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Linq;
+using System.Text.RegularExpressions;
 
 namespace WebApplication2.Models
 {
@@ -19,7 +20,8 @@ namespace WebApplication2.Models
         public string Title;
         public string Text;
         public DateTime PublicationDate;
-        public string Category; //if there was
+        public string Category_html; //if there was
+        public string Category;
         public string Link;
         public string Source;
         public string Image; //if there was
@@ -44,10 +46,18 @@ namespace WebApplication2.Models
                 r.PublicationDate = Convert.ToDateTime(descendant.Element("pubDate").Value);
                 r.Link = descendant.Element("link").Value;
                 r.Source = source;
-                if (descendant.Element("category") != null) r.Category = descendant.Element("category").Value;
+                if (descendant.Element("category") != null)
+                {
+                    r.Category = descendant.Element("category").Value;
+                    r.Category_html= "<li> Category : "+ descendant.Element("category").Value+" <a href = '/RssNews/Category/"+ descendant.Element("category").Value +"' target = '_blank' > Get Same Category </a></li>";
+                }
+                if (descendant.Element("image") != null)
+                {
+                    // r.Category = descendant.Element("category").Value;
+                    r.Image = "<li > " + descendant.Element("image").Value + "</li>";
+                }
 
 
-                if (descendant.Element("image") != null) r.Image = descendant.Element("image").Value;
                 news_list.Add(r);
 
             }
@@ -75,8 +85,16 @@ namespace WebApplication2.Models
                 r.PublicationDate = Convert.ToDateTime(descendant.Element("pubDate").Value);
                 r.Link = descendant.Element("link").Value;
                 r.Source = "svd";
-                if (descendant.Element("category") != null) r.Category = descendant.Element("category").Value;
-                if (descendant.Element("image") != null) r.Image = descendant.Element("image").Value;
+                if (descendant.Element("category") != null)
+                {
+                    r.Category = descendant.Element("category").Value;
+                    r.Category_html = "<li> Category : " + descendant.Element("category").Value + " <a href = '/RssNews/Category/" + descendant.Element("category").Value + "' target = '_blank' > Get Same Category </a></li>";
+                }
+                if (descendant.Element("image") != null)
+                {
+                    // r.Category = descendant.Element("category").Value;
+                    r.Image = "<li > " + descendant.Element("image").Value + "</li>";
+                }
                 news_list.Add(r);
 
             }
@@ -92,8 +110,16 @@ namespace WebApplication2.Models
                 r.PublicationDate = Convert.ToDateTime(descendant.Element("pubDate").Value);
                 r.Link = descendant.Element("link").Value;
                 r.Source = "nt";
-                if (descendant.Element("category") != null) r.Category = descendant.Element("category").Value;
-                if (descendant.Element("image") != null) r.Image = descendant.Element("image").Value;
+                if (descendant.Element("category") != null)
+                {
+                    // r.Category = descendant.Element("category").Value;
+                    r.Category = "<li> Category : " + descendant.Element("category").Value + " <a href = '/RssNews/Category/" + descendant.Element("category").Value + "' target = '_blank' > Get Same Category </a></li>";
+                }
+                if (descendant.Element("image") != null)
+                {
+                    // r.Category = descendant.Element("category").Value;
+                    r.Image = "<li > " + descendant.Element("image").Value + "</li>";
+                }
                 news_list.Add(r);
 
             }
@@ -108,18 +134,56 @@ namespace WebApplication2.Models
                 r.PublicationDate = Convert.ToDateTime(descendant.Element("pubDate").Value);
                 r.Link = descendant.Element("link").Value;
                 r.Source = "expressen";
-                if (descendant.Element("category") != null) r.Category = descendant.Element("category").Value;
-                if (descendant.Element("image") != null) r.Image = descendant.Element("image").Value;
+                if (descendant.Element("category") != null)
+                {
+                    r.Category = descendant.Element("category").Value;
+                    r.Category_html = "<li> Category : " + descendant.Element("category").Value + " <a href = '/RssNews/Category/" + descendant.Element("category").Value + "' target = '_blank' > Get Same Category </a></li>";
+                }
+                if (descendant.Element("image") != null)
+                {
+                    // r.Category = descendant.Element("category").Value;
+                    r.Image = "<li > " + descendant.Element("image").Value + "</li>";
+                }
                 news_list.Add(r);
 
             }
 
 
 
-
-
             return (news_list);
 
+
+        }
+
+
+        public static List<RssNews> Read_expressen(string url, string source)
+        {
+            var webClient = new WebClient();
+            //            ServicePointManager.ServerCertificateValidationCallback = delegate { return true; };
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+            string result = Encoding.UTF8.GetString(webClient.DownloadData(url));
+            XDocument document = XDocument.Parse(result);
+            var news_list = new List<RssNews>();
+            string pattern = "(<img([\\w\\W]+?)V>)(.*)";
+            Regex rg = new Regex(pattern);
+            foreach (var descendant in document.Descendants("item"))
+            {
+                RssNews r = new RssNews();
+                r.Title = descendant.Element("title").Value;
+                string temp = descendant.Element("description").Value;
+                var test = rg.Matches(temp);
+                r.Text = "0:" + test[1].Value;
+                r.PublicationDate = Convert.ToDateTime(descendant.Element("pubDate").Value);
+                r.Link = descendant.Element("link").Value;
+                r.Source = source;
+                if (descendant.Element("category") != null) r.Category = descendant.Element("category").Value;
+
+
+                if (descendant.Element("image") != null) r.Image = descendant.Element("image").Value;
+                news_list.Add(r);
+
+            }
+            return (news_list);
 
         }
 

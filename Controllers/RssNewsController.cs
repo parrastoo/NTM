@@ -44,9 +44,8 @@ namespace WebApplication2.Controllers
 
         public ActionResult Bycategory(string category)
         {
-
             string url2 = "https://www.svd.se/?service=rss";
-            var s = RssReader.Read(url2,"Name of The source");
+            var s = RssReader.Read(url2,"svd");
             s.Sort((x, y) => DateTime.Compare(y.PublicationDate, x.PublicationDate)); //descending orders
             var filter_list = new List<RssNews>();
             foreach (var item in s)
