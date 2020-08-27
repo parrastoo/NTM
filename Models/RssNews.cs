@@ -15,6 +15,10 @@ using System.Text.RegularExpressions;
 
 namespace WebApplication2.Models
 {
+
+    /// <summary>
+    /// RSSNews is the object of the news
+    /// </summary>
     public class RssNews
     {
         public string Title;
@@ -27,13 +31,18 @@ namespace WebApplication2.Models
         public string Image; //if there was
     }
 
+
+    /// <summary>
+    /// RssReader is respinsible to read news and generated the list of RssNews objects
+    /// </summary>
     public class RssReader
     {
 
+        //input :  the URL of RSSFeed and the name of the source
+        //output:  list of RssNews objects from that url
         public static List<RssNews> Read(string url, string source)
         {
             var webClient = new WebClient();
-            //            ServicePointManager.ServerCertificateValidationCallback = delegate { return true; };
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
             string result = Encoding.UTF8.GetString(webClient.DownloadData(url));
             XDocument document = XDocument.Parse(result);
@@ -53,18 +62,18 @@ namespace WebApplication2.Models
                 }
                 if (descendant.Element("image") != null)
                 {
-                    // r.Category = descendant.Element("category").Value;
                     r.Image = "<li > " + descendant.Element("image").Value + "</li>";
                 }
 
-
                 news_list.Add(r);
-
             }
             return (news_list);
 
         }
-    
+
+
+       //reads from three sources provided 
+        //output:  list of RssNews objects from the three different url
         public static List<RssNews> ReadAll()
         {
 
@@ -72,7 +81,6 @@ namespace WebApplication2.Models
             string url_nt = "https://www.nt.se/rss/lokalt/norrkoping";
             string url_expressen = "https://feeds.expressen.se/nyheter/";
             var webClient = new WebClient();
-            //            ServicePointManager.ServerCertificateValidationCallback = delegate { return true; };
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
             string result = Encoding.UTF8.GetString(webClient.DownloadData(url_svd));
             XDocument document = XDocument.Parse(result);
@@ -92,7 +100,6 @@ namespace WebApplication2.Models
                 }
                 if (descendant.Element("image") != null)
                 {
-                    // r.Category = descendant.Element("category").Value;
                     r.Image = "<li > " + descendant.Element("image").Value + "</li>";
                 }
                 news_list.Add(r);
@@ -112,12 +119,11 @@ namespace WebApplication2.Models
                 r.Source = "nt";
                 if (descendant.Element("category") != null)
                 {
-                    // r.Category = descendant.Element("category").Value;
-                    r.Category = "<li> Category : " + descendant.Element("category").Value + " <a href = '/RssNews/Category/" + descendant.Element("category").Value + "' target = '_blank' > Get Same Category </a></li>";
+                    r.Category = descendant.Element("category").Value;
+                    r.Category_html = "<li> Category : " + descendant.Element("category").Value + " <a href = '/RssNews/Category/" + descendant.Element("category").Value + "' target = '_blank' > Get Same Category </a></li>";
                 }
                 if (descendant.Element("image") != null)
                 {
-                    // r.Category = descendant.Element("category").Value;
                     r.Image = "<li > " + descendant.Element("image").Value + "</li>";
                 }
                 news_list.Add(r);
@@ -141,51 +147,17 @@ namespace WebApplication2.Models
                 }
                 if (descendant.Element("image") != null)
                 {
-                    // r.Category = descendant.Element("category").Value;
                     r.Image = "<li > " + descendant.Element("image").Value + "</li>";
                 }
                 news_list.Add(r);
 
             }
 
-
-
             return (news_list);
 
 
         }
 
-
-        public static List<RssNews> Read_expressen(string url, string source)
-        {
-            var webClient = new WebClient();
-            //            ServicePointManager.ServerCertificateValidationCallback = delegate { return true; };
-            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
-            string result = Encoding.UTF8.GetString(webClient.DownloadData(url));
-            XDocument document = XDocument.Parse(result);
-            var news_list = new List<RssNews>();
-            string pattern = "(<img([\\w\\W]+?)V>)(.*)";
-            Regex rg = new Regex(pattern);
-            foreach (var descendant in document.Descendants("item"))
-            {
-                RssNews r = new RssNews();
-                r.Title = descendant.Element("title").Value;
-                string temp = descendant.Element("description").Value;
-                var test = rg.Matches(temp);
-                r.Text = "0:" + test[1].Value;
-                r.PublicationDate = Convert.ToDateTime(descendant.Element("pubDate").Value);
-                r.Link = descendant.Element("link").Value;
-                r.Source = source;
-                if (descendant.Element("category") != null) r.Category = descendant.Element("category").Value;
-
-
-                if (descendant.Element("image") != null) r.Image = descendant.Element("image").Value;
-                news_list.Add(r);
-
-            }
-            return (news_list);
-
-        }
 
 
     }

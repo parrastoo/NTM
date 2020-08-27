@@ -5,6 +5,12 @@
 }
 
 <h2>Svd Page</h2>
+@*
+    This is Svd view
+    The controller for it is RssNewsController method svd
+    The input is in list of RssNews objects
+*@
+
 
 @foreach (var item in Model)
 {  <br>
@@ -17,9 +23,7 @@
         <li>Date : @item.PublicationDate </li>
         <li>Link : @item.Link <a href=@item.Link target="_blank"> open article</a></li>
         <li>Source : @item.Source </li>
-       <!-- <li>Category : @item.Category <a href="/RssNews/Category/@item.Category" target="_blank"> same category</a></li> -->
-        <!-- <li>Image :@(new HtmlString(@item.Image)) </li>   -->
-      @(new HtmlString(@item.Category_html))
+        @(new HtmlString(@item.Category_html))
         @(new HtmlString(@item.Image))
     </ul>
 }

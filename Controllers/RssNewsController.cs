@@ -8,10 +8,14 @@ using WebApplication2.Models;
 
 namespace WebApplication2.Controllers
 {
-    //TODO: make the links from the chanel list in setting
+
+    
+    /// <summary>
+    /// This class is responsible to control the views of the rss news
+    /// </summary>
     public class RssNewsController : Controller
     {
-        // GET: RssNews
+        // GETs: RssNews from svd and calls svd view
         public ActionResult Svd()
         {
             string url2 = "https://www.svd.se/?service=rss";
@@ -20,7 +24,7 @@ namespace WebApplication2.Controllers
             return View(s);
         }
 
-
+        // GET: RssNews from nt and calls nt view
         public ActionResult nt()
         {
             string url2 = "https://www.nt.se/rss/lokalt/norrkoping";
@@ -29,6 +33,7 @@ namespace WebApplication2.Controllers
             return View(s);
         }
 
+        // GET: RssNews from expressen and calls expressen view
         public ActionResult expressen()
         {
             string url2 = "https://feeds.expressen.se/nyheter/";
@@ -37,11 +42,7 @@ namespace WebApplication2.Controllers
             return View(s);
         }
 
- 
-
-
-
-
+        // Filters news by category but only with svd as source
         public ActionResult Bycategory(string category)
         {
             string url2 = "https://www.svd.se/?service=rss";
@@ -50,7 +51,6 @@ namespace WebApplication2.Controllers
             var filter_list = new List<RssNews>();
             foreach (var item in s)
             {
-                //RssNews r = new RssNews();
                 if (string.Equals(item.Category, category))
                 {
                     filter_list.Add(item);
@@ -58,7 +58,6 @@ namespace WebApplication2.Controllers
 
             }
             return View(filter_list);
-            //return Content(category);
 
         }
 

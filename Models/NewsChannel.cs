@@ -15,6 +15,11 @@ using System.Xml.Linq;
 
 namespace WebApplication2.Models
 {
+
+    /// <summary>
+    /// This class defined the channel which can be implemented in the future for the admin page
+    /// now its not used and RSSFeeds are hard coded.
+    /// </summary>
     public class NewsChannel
     {
         public int Id { get; set; }

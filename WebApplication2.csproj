@@ -243,7 +243,6 @@
     <Content Include="Views\RssNews\nt.cshtml" />
     <Content Include="Views\RssNews\expressen.cshtml" />
     <Content Include="Views\RssNews\ByCategory.cshtml" />
-    <Content Include="Views\RssNews\GetRSS.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Shared\_Layout_original.cshtml" />
   </ItemGroup>
